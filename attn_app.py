@@ -26,7 +26,7 @@ def create_plot(source, labels):
 def create_labels(new):
     words = new.split(' ')
     x = np.linspace(0.035,0.96, num=len(words))
-    y = np.repeat(0.89,len(words))
+    y = np.repeat(0.5,len(words))
     data_dict = {'x':x, 'y':y, 'text':words}
     return (ColumnDataSource(data=data_dict))
 
