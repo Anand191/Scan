@@ -9,10 +9,6 @@ def create_source(new):
     tags = search_class(new)
     sents, sent_tags, sent_idx = gen_parts(new.split(' '), tags)
     src = gen_attn(new, sents, sent_tags, sent_idx)
-    # labels = []
-    # for s in new.split(' '):
-    #     labels.append(s)
-    # label_len = [len(labels)-1]
     data_dict = {'image':[np.flip(src, axis=0)]}
     return (ColumnDataSource(data=data_dict))
 
@@ -21,16 +17,16 @@ def create_plot(source, labels):
     color_bar = ColorBar(color_mapper=color_mapper, ticker=BasicTicker(desired_num_ticks=2),
                          label_standoff=12, border_line_color=None, location=(1, 1))
     plot = figure(x_range=(0, 1), y_range=(0, 1), x_axis_location="above")
-    plot.image(image='image',source=source, x=0, y=0, dw=1, dh=1, palette="Viridis256") #[np.flip(source.data['attn'],axis=0)]
-    plot.text(x='x', y='y', text='text', source=labels, angle=1.3, text_color="#000000")
+    plot.image(image='image',source=source, x=0, y=0, dw=1, dh=1, palette="Viridis256")
+    plot.text(x='x', y='y', text='text', source=labels, angle=1.5, text_color="#000000")
     plot.axis.visible=False
     plot.add_layout(color_bar, 'right')
     return plot
 
 def create_labels(new):
     words = new.split(' ')
-    x = np.linspace(0.1,0.9, num=len(words))
-    y = np.repeat(0.9,len(words))
+    x = np.linspace(0.035,0.96, num=len(words))
+    y = np.repeat(0.89,len(words))
     data_dict = {'x':x, 'y':y, 'text':words}
     return (ColumnDataSource(data=data_dict))
 
