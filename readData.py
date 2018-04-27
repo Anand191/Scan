@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 path = './Data/CLEANED-SCAN/length_split'
 
@@ -16,12 +17,6 @@ connectives = {'and':rev, 'after': not rev}
 actions = {'turn':0, 'jump':1, 'run':2, 'walk':3, 'look':4}
 
 pos = {'sc':s_counters, 'cc':c_counters, 'dir':directions, 'conj':connectives, 'act':actions}
-
-def attention (idx, length):
-    attn_vector = np.zeros(length).tolist()
-    attn_vector[idx] = 1
-    return attn_vector
-
 
 def search_class(sentence):
     word_tag = []
@@ -77,6 +72,12 @@ def gen_parts(words, pos_tags):
     # print(ord_keys)
     return (ord_subs, ord_tags, ord_keys)
 
+def attention (idx, length):
+    attn_vector = np.zeros(length).tolist()
+    attn_vector[idx] = 1
+    return attn_vector
+
+
 def execute_step(sent, tag, index, length):
     attn_list = []
     if 'cc' in tag:
@@ -86,28 +87,28 @@ def execute_step(sent, tag, index, length):
         if(sent[idx1]=='opposite'):
             for i in range (2):
                 attn_list.append(attention(index[idx2], length))
-                print(attention(index[idx2], length))
+                #print(attention(index[idx2], length))
             if (sent[idx3] != "turn"):
                 attn_list.append(attention(index[idx3], length))
-                print(attention(index[idx3], length))
+                #print(attention(index[idx3], length))
         else:
             for i in range(4):
                 attn_list.append(attention(index[idx2], length))
-                print(attention(index[idx2], length))
+                #print(attention(index[idx2], length))
                 if (sent[idx3] != "turn"):
                     attn_list.append(attention(index[idx3], length))
-                    print(attention(index[idx3], length))
+                    #print(attention(index[idx3], length))
     elif 'dir' in tag:
         attn_list.append(attention(index[tag.index('dir')], length))
-        print(attention(index[tag.index('dir')], length))
+        #print(attention(index[tag.index('dir')], length))
         if (sent[tag.index('act')] != "turn"):
             attn_list.append(attention(index[tag.index('act')], length))
-            print(attention(index[tag.index('act')], length))
+            #print(attention(index[tag.index('act')], length))
 
     else:
         if (sent[tag.index('act')] != "turn"):
             attn_list.append(attention(index[tag.index('act')], length))
-            print(attention(index[tag.index('act')], length))
+            #print(attention(index[tag.index('act')], length))
     return attn_list
 
 
@@ -131,20 +132,35 @@ def gen_attn(sentence,sub_sentences, tags, idxs):
             temp_attn = execute_step(sub, tags[i],idxs[i], length)
             for temp in temp_attn:
                 attn.append(temp)
-    print('')
     return (np.asarray(attn))
 
+def plot_attention(input_sentence, attentions):
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    cax = ax.matshow(attentions, cmap='bone', vmin=0, vmax=1, aspect='auto')
+
+    # fig.colorbar(cax)
+    cb = plt.colorbar(cax)
+
+    # Set up axes
+    ax.set_xticklabels([''] + input_sentence.split(' '), rotation=0)
+
+    # X and Y labels
+    ax.set_xlabel("INPUT")
+    ax.xaxis.set_label_position('top')
+
+    plt.show()
 
 
+# while True:
+#     cmd = input("Enter command:")
+#     if (cmd=='exit'):
+#         break
+#     tags = search_class(cmd)
+#     sents, sent_tags, sent_idx = gen_parts(cmd.split(' '), tags)
+#     final_attn = gen_attn(cmd, sents, sent_tags, sent_idx)
+#     plot_attention(cmd, final_attn)
 
-while True:
-    cmd = input("Enter command:")
-    if (cmd=='exit'):
-        break
-    tags = search_class(cmd)
-    sents, sent_tags, sent_idx = gen_parts(cmd.split(' '), tags)
-    final_attn = gen_attn(cmd, sents, sent_tags, sent_idx)
-    print(final_attn.shape)
 
 
 #=======================================================================================================================
