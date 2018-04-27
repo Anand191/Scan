@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 path = './Data/CLEANED-SCAN/length_split'
 
@@ -134,22 +134,22 @@ def gen_attn(sentence,sub_sentences, tags, idxs):
                 attn.append(temp)
     return (np.asarray(attn))
 
-def plot_attention(input_sentence, attentions):
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    cax = ax.matshow(attentions, cmap='bone', vmin=0, vmax=1, aspect='auto')
-
-    # fig.colorbar(cax)
-    cb = plt.colorbar(cax)
-
-    # Set up axes
-    ax.set_xticklabels([''] + input_sentence.split(' '), rotation=0)
-
-    # X and Y labels
-    ax.set_xlabel("INPUT")
-    ax.xaxis.set_label_position('top')
-
-    plt.show()
+# def plot_attention(input_sentence, attentions):
+#     fig = plt.figure()
+#     ax = fig.add_subplot(111)
+#     cax = ax.matshow(attentions, cmap='bone', vmin=0, vmax=1, aspect='auto')
+#
+#     # fig.colorbar(cax)
+#     cb = plt.colorbar(cax)
+#
+#     # Set up axes
+#     ax.set_xticklabels([''] + input_sentence.split(' '), rotation=0)
+#
+#     # X and Y labels
+#     ax.set_xlabel("INPUT")
+#     ax.xaxis.set_label_position('top')
+#
+#     plt.show()
 
 
 # while True:
