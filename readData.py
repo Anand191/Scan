@@ -8,10 +8,10 @@ try:
 except NameError:
     raw_input = input  # Python 3
 
-path = './Data/CLEANED-SCAN/length_split'
-
-data_arr = pd.read_csv(os.path.join(path,"tasks_train_length.txt"),sep='\t', header=None).values
-data_arr = np.c_[data_arr, np.zeros(data_arr.shape[0], dtype=object)]
+# path = './Data/CLEANED-SCAN/length_split'
+#
+# data_arr = pd.read_csv(os.path.join(path,"tasks_train_length.txt"),sep='\t', header=None).values
+# data_arr = np.c_[data_arr, np.zeros(data_arr.shape[0], dtype=object)]
 
 rev = False
 s_counters = {'twice':2, 'thrice':3,}
@@ -155,14 +155,14 @@ def plot_attention(input_sentence, attentions):
 
     plt.show()
 
-while True:
-    cmd = raw_input("Enter command:")
-    if (cmd=='exit'):
-        break
-    tags = search_class(cmd)
-    sents, sent_tags, sent_idx = gen_parts(cmd.split(' '), tags)
-    final_attn = gen_attn(cmd, sents, sent_tags, sent_idx)
-    plot_attention(cmd, final_attn)
+# while True:
+#     cmd = raw_input("Enter command:")
+#     if (cmd=='exit'):
+#         break
+#     tags = search_class(cmd)
+#     sents, sent_tags, sent_idx = gen_parts(cmd.split(' '), tags)
+#     final_attn = gen_attn(cmd, sents, sent_tags, sent_idx)
+#     plot_attention(cmd, final_attn)
 
 
 
