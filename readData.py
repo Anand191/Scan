@@ -1,13 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
-#import matplotlib.pyplot as plt
-
-path = './Data/CLEANED-SCAN/length_split'
-
-data_arr = pd.read_csv(os.path.join(path,"tasks_train_length.txt"),sep='\t', header=None).values
-
-data_arr = np.c_[data_arr, np.zeros(data_arr.shape[0], dtype=object)]
+import matplotlib.pyplot as plt
 
 rev = False
 s_counters = {'twice':2, 'thrice':3,}
@@ -134,22 +128,22 @@ def gen_attn(sentence,sub_sentences, tags, idxs):
                 attn.append(temp)
     return (np.asarray(attn))
 
-# def plot_attention(input_sentence, attentions):
-#     fig = plt.figure()
-#     ax = fig.add_subplot(111)
-#     cax = ax.matshow(attentions, cmap='bone', vmin=0, vmax=1, aspect='auto')
-#
-#     # fig.colorbar(cax)
-#     cb = plt.colorbar(cax)
-#
-#     # Set up axes
-#     ax.set_xticklabels([''] + input_sentence.split(' '), rotation=0)
-#
-#     # X and Y labels
-#     ax.set_xlabel("INPUT")
-#     ax.xaxis.set_label_position('top')
-#
-#     plt.show()
+def plot_attention(input_sentence, attentions):
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    cax = ax.matshow(attentions, cmap='bone', vmin=0, vmax=1, aspect='auto')
+
+    # fig.colorbar(cax)
+    cb = plt.colorbar(cax)
+
+    # Set up axes
+    ax.set_xticklabels([''] + input_sentence.split(' '), rotation=0)
+
+    # X and Y labels
+    ax.set_xlabel("INPUT")
+    ax.xaxis.set_label_position('top')
+
+    plt.show()
 
 
 # while True:
@@ -159,7 +153,8 @@ def gen_attn(sentence,sub_sentences, tags, idxs):
 #     tags = search_class(cmd)
 #     sents, sent_tags, sent_idx = gen_parts(cmd.split(' '), tags)
 #     final_attn = gen_attn(cmd, sents, sent_tags, sent_idx)
-#     plot_attention(cmd, final_attn)
+#     print(final_attn)
+    #plot_attention(cmd, final_attn)
 
 
 
@@ -187,10 +182,5 @@ def gen_attn(sentence,sub_sentences, tags, idxs):
 #
 # ipt = Lang('input_vocab')
 # tgt = Lang('target_vocab')
-#
-# for i in range(data_arr.shape[0]):
-#     ipt.addSentence(data_arr[i,0])
-#     tgt.addSentence(data_arr[i,1])
-#     data_arr[i,2] = search_class(data_arr[i,0], pos)
 
 
