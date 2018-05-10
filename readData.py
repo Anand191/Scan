@@ -77,7 +77,8 @@ def gen_parts(words, pos_tags):
     return (ord_subs, ord_tags, ord_keys)
 
 def attention (idx, length):
-    attn_vector = np.zeros(length).tolist()
+    # +1 for the EOS step
+    attn_vector = np.zeros(length+1).tolist()
     attn_vector[idx] = 1
     return attn_vector
 
@@ -136,6 +137,9 @@ def gen_attn(sentence,sub_sentences, tags, idxs):
             temp_attn = execute_step(sub, tags[i],idxs[i], length)
             for temp in temp_attn:
                 attn.append(temp)
+    # Add one extra attention for output EOS -> input EOS
+    attn.append(attention(-1, length))
+
     return (np.asarray(attn))
 
 def plot_attention(input_sentence, attentions):
